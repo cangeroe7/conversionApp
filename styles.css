@@ -1,0 +1,89 @@
+body {
+  font-size: 16px;
+  background-color: whitesmoke;
+  display: flex;
+  flex-direction: column;
+  font-family: Arial, Helvetica, sans-serif
+}
+
+header {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 2em;
+}
+header h1 {
+  text-align: center;
+  font-size: 2.5em;
+}
+.topnav {
+  border: solid 5px #333;
+  background-color: #333;
+  overflow: hidden;
+  display: flex;
+  justify-content: space-evenly;
+  width: 80vw;
+}
+
+.topnav a {
+  float:left;
+  color: whitesmoke;
+  padding: 30px 30px;
+  text-decoration: none;
+  text-align: center;
+  font-size: 200%;
+}
+
+.topnav .here {
+  background-color: whitesmoke;
+  color: #333;
+}
+
+.topnav a:hover {
+  background-color: whitesmoke;
+  color: #333;
+}
+.topnav a.active {
+  background-color: #04AA6D;
+  color: white;
+}
+
+main {
+  display: flex;
+  justify-content: center;
+   ;
+}
+
+.grid-container {
+  display: grid;
+  gap: 1em 1em;
+  grid-auto-rows: 4fr 1fr;
+  grid-auto-columns: 3fr 1fr;
+  height: 40vw;
+  width: 80vw;
+}
+
+.grid-item {
+  border: solid 1px black;
+  border-radius: 15px;
+}
+
+#grid-calculator {
+  grid-row: 1 ;
+  grid-column: 1;
+}
+
+#grid-calculator-result {
+  grid-row: 2;
+  grid-column: 1;
+}
+
+#grid-links {
+  grid-row: 1 / 3;
+  grid-column: 2 ;
+}
+
+#home-text {
+
+}
