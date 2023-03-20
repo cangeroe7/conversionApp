@@ -31,13 +31,86 @@ const titleTextHold = {
     }
 };
 
+const calculatorOptions = {
+    "length": [
+        ["Meter", 1],
+        ["Kilometer", 0.001],
+        ["Centimeter", 100],
+        ["Millimeter", 1000],
+        ["Micrometer", 1000000],
+        ["Nanometer", 1000000000],
+        ["Mile", 0.0006213689],
+        ["Yard", 1.0936132983],
+        ["Foot", 3.280839895],
+        ["Inch", 39.37997874],
+        ["Light Year", 1.057008707*10**-16]
+    ],
+    "weight": [
+        ["Kilogram", 1],
+        ["Gram", 1000],
+        ["Milligram", 1000000],
+        ["Pound", 2.2046244202],
+        ["Ounce", 35.273990723],
+        ["Carrat", 5000],
+        ["Metric Ton", 0.001],
+        ["Long Ton", 0.0009842073],
+        ["Short Ton", 0.0011023122],
+        ["Atomic Mass Unit", 6.022136652*10**26]
+    ],
+    "temperature": [
+        ["Celsius", 0],
+        ["Kelvin", 0],
+        ["Fahrenheit", 0]
+    ],
+    "area": [
+        ["Square Meter", 1],
+        ["Square Kilometer", 0.000001],
+        ["Square Centimeter", 10000],
+        ["Square Millimeter", 1000000],
+        ["Square Micrometer", 1000000000000],
+        ["Hectare", 0.0001],
+        ["Square Mile", 3.861018768*10**-7],
+        ["Square Yard", 1.1959900463],
+        ["Square Yard", 10.763910417],
+        ["Square Inch", 1550.0031],
+        ["Acre", 0.0002471054],
+    ],
+    "volume": [
+        ["Cubic Meter", ],
+        ["Cubic Kilometer", ],
+        ["Cubic Centimeter", ],
+        ["Cubic Millimeter", ],
+        ["Liter", ],
+        ["Milliliter", ],
+        ["US Gallon", ],
+        ["US Quart", ],
+        ["US Pint", ],
+        ["US Cup", ],
+        ["US Fluid Ounce", ],
+        ["US Table Spoon", ],
+        ["US Tea Spoon", ],
+        ["Imperial Gallon", ],
+        ["Imperial Pint", ],
+        ["Imperial Cup", ],
+        ["Imperial Fluid Ounce", ],
+        ["Imperial Table Spoon", ],
+        ["Imperial Tea Spoon", ],
+        ["Cubic Mile", ],
+        ["Cubic Yard", ],
+        ["Cubic Foot", ],
+        ["Cubic Inch", ]
+    ]
+};
+
 let currentButton = document.getElementById("home");
 
 const onStart = () => {
     changeText("home");
-    changeCurrentButton("home")
+    changeCurrentButton("home");
+    addEventsToNavButtons();
 }
 
+// changes the title of the calculator, and the little text's title and content below the calculator.
 const changeText = (measurementId) => {
     const historyTitle = document.getElementById("history-title");
     const historyText = document.getElementById("history-text");  
@@ -48,15 +121,18 @@ const changeText = (measurementId) => {
 }
 
 const changeCurrentButton = (buttonId) => {
-    currentButton.style.backgroundColor = "#333";
+    currentButton.style.backgroundColor = "";
     currentButton = document.getElementById(buttonId);
-    currentButton.style.backgroundColor = "#04AA6D"
+    currentButton.style.backgroundColor = "#04AA6D";
+
 }
 
+// creates the calculator for the right units 
 const createCalculator = (calculatorId) => {
 
 }
 
+// handles the change from calculator to calculator and going back to home
 const handleNavChange = ({target}) => {
     changeText(target.id);
     changeCurrentButton(target.id);
@@ -65,11 +141,12 @@ const handleNavChange = ({target}) => {
         return
     } else {
         document.getElementById("calculation-hold").style.display = "grid";
-        create
     }
+    createOptions(target.id);
 }
 
-const addEventsToMeasurements = () => {
+// gives every nav button an handleNavChange click event
+const addEventsToNavButtons = () => {
     const buttons = document.getElementsByClassName("measure-button");
     for (let i=0; i < buttons.length; i++) {
         let button = buttons.item(i)
@@ -77,5 +154,30 @@ const addEventsToMeasurements = () => {
     }
 };
 
-addEventsToMeasurements();
-onStart();
+// gives the input and output columns the options of the specific calculator
+const createOptions = (calculatorId) => {
+    const inputOptions = document.getElementById("input-unit");
+    const outputOptions = document.getElementById("output-unit");
+    removeOptions(inputOptions, outputOptions);
+    addOptions(calculatorId, inputOptions, outputOptions);
+}
+
+// removes the current options from the calculator options
+const removeOptions = (inputOptions, outputOptions) => {
+    while (inputOptions.options.length > 0) {
+        inputOptions.remove(0);
+        outputOptions.remove(0);
+    }
+}
+
+// add the new calculator options that correspond with the selected nav button
+const addOptions = (calculatorId, inputOptions, outputOptions) => {
+    calculatorOptions[calculatorId].forEach(option => {
+        let newOption1 = new Option(option[0], option[0]);
+        let newOption2 = new Option(option[0], option[0]);
+        outputOptions.add(newOption1);
+        inputOptions.add(newOption2); 
+    });
+}
+
+onStart(); 
