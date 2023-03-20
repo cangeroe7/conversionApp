@@ -25,8 +25,6 @@
             <h2 id="calculator-name"></h2>
             <section id="grid-container">
                 <article class="grid-item" id="grid-calculator">
-                    <!-- this table will be the calculator, the aaaaaaa is a hold to visualize what 
-                    it will look like with real inputs added with javascript -->
                     <table>
                         <tbody>
                             <tr>
@@ -35,37 +33,20 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <input class="value-box td-item" type="text" name="from-val" id="from-val">
+                                    <input class="value-box td-item" type="text" name="from-val" id="from-val" onkeyup="handleCalcUpdate">
                                 </td>
                                 <td>
-                                    <input class="value-box td-item" type="text" name="to-val" id="to-val">
+                                    <input class="value-box td-item" readonly="readonly" type="text" name="to-val" id="to-val">
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <select class="select-option td-item" size="7" name="input-unit" id="input-unit">
-                                        <option value="1">aaaaaaaaaa</option>
-                                        <option value="1">aaaaaaaaaa</option>
-                                        <option value="1">aaaaaaaaaa</option>
-                                        <option value="1">aaaaaaaaaa</option>
-                                        <option value="1">aaaaaaaaaa</option>
-                                        <option value="1">aaaaaaaaaa</option>
-                                        <option value="1">aaaaaaaaaa</option>
-                                        <option value="1">aaaaaaaaaa</option>
+                                    <select class="select-option td-item" size="7" name="input-unit" id="input-unit" onchange="handleCalcUpdate">
                                     </select>
-                    
                                 </td>
                                 <td>
-                                    <select class="select-option td-item" size="7" name="output-unit" id="output-unit">
-                                        <option value="1">aaaaaaaaaa</option>
-                                        <option value="1">aaaaaaaaaa</option>
-                                        <option value="1">aaaaaaaaaa</option>
-                                        <option value="1">aaaaaaaaaa</option>
-                                        <option value="1">aaaaaaaaaa</option>
-                                        <option value="1">aaaaaaaaaa</option>
-                                        <option value="1">aaaaaaaaaa</option>
-                                        <option value="1">aaaaaaaaaa</option>
-                                    </select>
+                                    <select class="select-option td-item" size="7" name="output-unit" id="output-unit" onchange="handleCalcUpdate">
+                                    </select> 
                                 </td>
                             </tr>
                         </tbody>
@@ -73,11 +54,11 @@
 
                 </article>
                 <article class="grid-item" id="grid-calculator-result">
-                    
                 </article>
                 
                 <aside class="grid-item" id="grid-links">
-                    aside links
+                    <h4>Notes:</h4>
+                    <textarea name="notes" id="notes" cols="20" rows="15"></textarea>
                 </aside>
             </section>
         </div>
