@@ -118,6 +118,7 @@ option:hover {
   grid-column: 1;
   padding-top: 20px;
   font-size: 1.3em;
+  font-weight: 650;
 }
 
 #grid-links {
