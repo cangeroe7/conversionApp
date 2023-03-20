@@ -59,8 +59,8 @@ const calculatorOptions = {
     ],
     "temperature": [
         ["Celsius", 0],
-        ["Kelvin", 0],
-        ["Fahrenheit", 0]
+        ["Kelvin", 1],
+        ["Fahrenheit", 2]
     ],
     "area": [
         ["Square Meter", 1],
@@ -76,34 +76,33 @@ const calculatorOptions = {
         ["Acre", 0.0002471054],
     ],
     "volume": [
-        ["Cubic Meter", ],
-        ["Cubic Kilometer", ],
-        ["Cubic Centimeter", ],
-        ["Cubic Millimeter", ],
-        ["Liter", ],
-        ["Milliliter", ],
-        ["US Gallon", ],
-        ["US Quart", ],
-        ["US Pint", ],
-        ["US Cup", ],
-        ["US Fluid Ounce", ],
-        ["US Table Spoon", ],
-        ["US Tea Spoon", ],
-        ["Imperial Gallon", ],
-        ["Imperial Pint", ],
-        ["Imperial Cup", ],
-        ["Imperial Fluid Ounce", ],
-        ["Imperial Table Spoon", ],
-        ["Imperial Tea Spoon", ],
-        ["Cubic Mile", ],
-        ["Cubic Yard", ],
-        ["Cubic Foot", ],
-        ["Cubic Inch", ]
+        ["Cubic Meter", 1],
+        ["Cubic Kilometer", 0.000000001],
+        ["Cubic Centimeter", 1000000],
+        ["Cubic Millimeter", 1000000000],
+        ["Liter", 1000],
+        ["Milliliter", 1000000],
+        ["US Gallon", 264.17217686],
+        ["US Quart", 1056.6887074],
+        ["US Pint", 2113.3774149],
+        ["US Cup", 4226.7548297],
+        ["US Fluid Ounce", 33814.038638],
+        ["US Table Spoon", 67628.077276],
+        ["US Tea Spoon", 202884.23183],
+        ["Imperial Gallon", 219.9692483],
+        ["Imperial Quart", 879.8769932],
+        ["Imperial Pint", 1759.7539864],
+        ["Imperial Fluid Ounce", 35195.079728],
+        ["Imperial Table Spoon", 56312.127565],
+        ["Imperial Tea Spoon", 168936.38269],
+        ["Cubic Mile", 2.399128636*10*-10],
+        ["Cubic Yard", 1.3079506193],
+        ["Cubic Foot", 35.314666721],
+        ["Cubic Inch", 61023.744095]
     ]
 };
 
 let currentButton = document.getElementById("home");
-let startUnit, finalUnit;
 
 const onStart = () => {
     changeText("home");
@@ -125,12 +124,6 @@ const changeCurrentButton = (buttonId) => {
     currentButton.style.backgroundColor = "";
     currentButton = document.getElementById(buttonId);
     currentButton.style.backgroundColor = "#04AA6D";
-
-}
-
-// creates the calculator for the right units 
-const createCalculator = (calculatorId) => {
-
 }
 
 // handles the change from calculator to calculator and going back to home
@@ -144,6 +137,9 @@ const handleNavChange = ({target}) => {
         document.getElementById("calculation-hold").style.display = "grid";
     }
     createOptions(target.id);
+    document.getElementById('from-val').value = "";
+    document.getElementById('to-val').value = "";
+    document.getElementById('grid-calculator-result').innerHTML = "";
 }
 
 // gives every nav button an handleNavChange click event
@@ -175,44 +171,70 @@ const removeOptions = (inputOptions, outputOptions) => {
 
 // add the new calculator options that correspond with the selected nav button
 const addOptions = (calculatorId, inputOptions, outputOptions) => {
-    calculatorOptions[calculatorId].forEach(option => {
-        let newOption1 = new Option(option[0], option[0]);
-        let newOption2 = new Option(option[0], option[0]);
+    calculatorOptions[calculatorId].forEach((option, i) => {
+        let newOption1 = new Option(option[0], i);
+        let newOption2 = new Option(option[0], i);
         outputOptions.add(newOption1);
         inputOptions.add(newOption2); 
     });
+    inputOptions.value = 0;
+    outputOptions.value = 1;
 }
 
-
-
-
-
-// const updateResult = () => {
-//     if
-// }
-
-const handleUnitChange = () => {
-    console.log("see this tom")
+// Changes the values if either the input number changes or if the selected units change
+const handleCalcUpdate = () => {
+    const valueInput = document.getElementById('from-val').value;
+    const valueOutput = document.getElementById('to-val');
+    const unitInput = document.getElementById('input-unit').value;
+    const unitOutput = document.getElementById('output-unit').value;
+    const outputDisplay = document.getElementById('grid-calculator-result');
+    const units = calculatorOptions[currentButton.id]
+    let result;
+    if (Number(valueInput) || valueInput === '0') {
+        if (currentButton.id === "temperature") {
+            result = calculateTemp(valueInput, unitInput, unitOutput);
+        } else {
+            result = Number(valueInput)*Number(units[unitOutput][1])/Number(units[unitInput][1]);
+        }
+        valueOutput.value = result;
+        outputDisplay.innerHTML = `Result: ${result} ${units[unitOutput][0]}`;
+    } else if (valueInput === "") {
+        valueOutput.value = "";
+        outputDisplay.innerHTML = "";
+    } else {
+        outputDisplay.innerHTML = "Error, please enter a valid number!";
+        valueOutput.value = "";
+    }
 }
 
-const handleValueChange = (value) => {
-    console.log("handle value change for this one")
+// Special function for when temperatures have to be converted
+const calculateTemp = (valueInput, unitInput, unitOutput) => {
+    if (unitInput === unitOutput) {
+        return valueInput
+    }
+    if (unitInput == 0) {   
+        if (unitOutput == 1) {return (valueInput - 273.15)}
+        if (unitOutput == 2) {return (valueInput * 9/5 + 32)}
+    }
+    if (unitInput == 1) {
+        if (unitOutput == 0) {return (valueInput + 273.15)}
+        if (unitOutput == 2) {return ((valueInput + 273.15) * 9/5 + 32)}
+    }
+    if (unitInput == 2) {
+        if (unitOutput == 0) {return ((valueInput - 32) * 5/9)}
+        if (unitOutput == 1) {return ((valueInput -32) * 5/9 + 273.15)}
+    }
 }
 
+// assigning event listeners to the input forms
 const fromSelectionForm = document.getElementById('input-unit');
 const toSelectionForm = document.getElementById('output-unit');
 
-fromSelectionForm.addEventListener('change', handleUnitChange);
-toSelectionForm.addEventListener('change', handleUnitChange);
+fromSelectionForm.addEventListener('change', handleCalcUpdate);
+toSelectionForm.addEventListener('change', handleCalcUpdate);
 
 const valueInput = document.getElementById('from-val');
-valueInput.addEventListener('keyup', handleValueChange);
+valueInput.addEventListener('keyup', handleCalcUpdate);
 
-// const addEventsToNavButtons = () => {
-//     const buttons = document.getElementsByClassName("measure-button");
-//     for (let i=0; i < buttons.length; i++) {
-//         let button = buttons.item(i)
-//         button.addEventListener('click', handleNavChange);
-//     }
 
 onStart(); 
