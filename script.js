@@ -103,6 +103,7 @@ const calculatorOptions = {
 };
 
 let currentButton = document.getElementById("home");
+let startUnit, finalUnit;
 
 const onStart = () => {
     changeText("home");
@@ -160,6 +161,7 @@ const createOptions = (calculatorId) => {
     const outputOptions = document.getElementById("output-unit");
     removeOptions(inputOptions, outputOptions);
     addOptions(calculatorId, inputOptions, outputOptions);
+
 }
 
 // removes the current options from the calculator options
@@ -168,6 +170,7 @@ const removeOptions = (inputOptions, outputOptions) => {
         inputOptions.remove(0);
         outputOptions.remove(0);
     }
+
 }
 
 // add the new calculator options that correspond with the selected nav button
@@ -179,5 +182,37 @@ const addOptions = (calculatorId, inputOptions, outputOptions) => {
         inputOptions.add(newOption2); 
     });
 }
+
+
+
+
+
+// const updateResult = () => {
+//     if
+// }
+
+const handleUnitChange = () => {
+    console.log("see this tom")
+}
+
+const handleValueChange = (value) => {
+    console.log("handle value change for this one")
+}
+
+const fromSelectionForm = document.getElementById('input-unit');
+const toSelectionForm = document.getElementById('output-unit');
+
+fromSelectionForm.addEventListener('change', handleUnitChange);
+toSelectionForm.addEventListener('change', handleUnitChange);
+
+const valueInput = document.getElementById('from-val');
+valueInput.addEventListener('keyup', handleValueChange);
+
+// const addEventsToNavButtons = () => {
+//     const buttons = document.getElementsByClassName("measure-button");
+//     for (let i=0; i < buttons.length; i++) {
+//         let button = buttons.item(i)
+//         button.addEventListener('click', handleNavChange);
+//     }
 
 onStart(); 
